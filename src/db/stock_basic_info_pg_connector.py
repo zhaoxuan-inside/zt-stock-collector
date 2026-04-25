@@ -2,7 +2,7 @@ from .pg_connector import PGConnector
 
 CREATE_TABLE = """
 CREATE TABLE IF NOT EXISTS stock_basic_info (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     code CHAR(6) NOT NULL,
     name VARCHAR(4) NOT NULL,
     exchanger VARCHAR(2) NOT NULL,
@@ -22,5 +22,5 @@ class StockBasicInfoConnector(PGConnector):
     def __enter__(self):
         return self
 
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()

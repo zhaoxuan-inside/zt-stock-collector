@@ -1,1 +1,1 @@
-from .stock_basic_info import StockBasicInfoProcessor
+from .stock_basic_info_processor import StockBasicInfoProcessor
