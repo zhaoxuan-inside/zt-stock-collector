@@ -3,11 +3,13 @@ from mapper.registry import MapperRegistry
 from db.stock_basic_info_pg_connector import StockBasicInfoConnector
 from db.stock_basic_info_entity import StockBasicInfoEntity
 from dto.stock import StockBasicInfo
+from .http_extractor import HttpExtractor
 
 class StockBasicInfoProcessor:
 
-    def __init__(self, dsn: str):
+    def __init__(self, dsn: str, extrator: HttpExtractor):
         self._dsn = dsn
+        self._extrator = extrator
     
     def process(self, data: str) -> int:
         raw = json.loads(data)
