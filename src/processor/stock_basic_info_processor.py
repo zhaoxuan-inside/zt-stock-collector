@@ -11,8 +11,11 @@ class StockBasicInfoProcessor:
         self._dsn = dsn
         self._extrator = extrator
     
-    def process(self, data: str) -> int:
-        raw = json.loads(data)
+    def process(self) -> int:
+
+        resp = self._extrator.send_request()
+
+        raw = json.loads(resp)
         mapper_cls = MapperRegistry.get_mapper(raw)
         if not mapper_cls:
             raise
