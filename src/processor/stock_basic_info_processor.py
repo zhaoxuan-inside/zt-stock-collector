@@ -2,7 +2,7 @@ import json
 from mapper.registry import MapperRegistry
 from db.stock_basic_info_pg_connector import StockBasicInfoConnector
 from db.stock_basic_info_entity import StockBasicInfoEntity
-from dto.stock import StockBasicInfo
+from dto.stock_basic_info import StockBasicInfo
 from .http_extractor import HttpExtractor
 
 class StockBasicInfoProcessor:

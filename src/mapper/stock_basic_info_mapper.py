@@ -1,7 +1,7 @@
 import re
 from typing import Any, List, Dict
 from .base import Mapper
-from dto.stock import StockBasicInfo
+from dto.stock_basic_info import StockBasicInfo
 
 class StockBasicInfoMapper(Mapper):
 
