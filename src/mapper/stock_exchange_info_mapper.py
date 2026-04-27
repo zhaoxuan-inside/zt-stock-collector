@@ -1,6 +1,6 @@
 from typing import Any, List
 from .base import Mapper
-from dto.stock_exchange_info import StockExchangeInfo
+from db.stock_exchange_daily_entity import StockExchangeDailyEntity
 
 class StockExchangeInfoMapper(Mapper):
 
@@ -18,7 +18,7 @@ class StockExchangeInfoMapper(Mapper):
             return True
         return False
     
-    def map(self, data: Any) -> List[StockExchangeInfo]:
+    def map(self, data: Any) -> List[StockExchangeDailyEntity]:
         match data:
             case dict():
                 items = [data]
@@ -30,22 +30,42 @@ class StockExchangeInfoMapper(Mapper):
         result = []
 
         for idx, raw in enumerate(items):
-            date = raw.get("d")
-            if (not isinstance(date, str) or not (date := date.strip())):
-                raise ValueError(f"data invalid. idx: {idx}, field: d. content: {date}")
-            time: str | None = raw.get("t")
-            if (not isinstance(time, str) or not (time := time.strip())):
-                raise ValueError(f"data invalid. idx: {idx}, field: t. content: {time}")
-            value = raw.get("v")
-            if (not isinstance(value, int) or not (value > 100)):
-                raise ValueError(f"data invalid. idx: {idx}, field: v. content: {value}")
-            price = raw.get("p")
-            if (not isinstance(price, float) or not (price > 1.0)):
-                raise ValueError(f"data invalid. idx: {idx}, field: v. content: {price}")
-            order = raw.get("ts")
-            if ((not isinstance(order, int)) or (order != 0 and order != 1 and order != 2)):
-                raise ValueError(f"data invalid. idx: {idx}, field: v. content: {price}")
+            t = raw.get("t")
+            if (not isinstance(t, str) or not (t := t.strip())):
+                raise ValueError(f"t invalid. idx: {idx}, field: d. content: {t}")
+            
+            o = raw.get("o")
+            if (not isinstance(o, float) or not (o > 0.00)):
+                raise ValueError(f"o invalid. idx: {idx}, field: t. content: {o}")
+            
+            h = raw.get("h")
+            if (not isinstance(h, float) or not (h > 0.00)):
+                raise ValueError(f"h invalid. idx: {idx}, field: v. content: {h}")
+            
+            l = raw.get("l")
+            if (not isinstance(l, float) or not (l > 1.0)):
+                raise ValueError(f"l invalid. idx: {idx}, field: l. content: {l}")
+            
+            c = raw.get("c")
+            if ((not isinstance(c, float)) or not (h > 0.00)):
+                raise ValueError(f"c invalid. idx: {idx}, field: c. content: {c}")
 
-            result.append(StockExchangeInfo(d=date, t=time, v=value, p=price, ts=order))
+            v = raw.get("v")
+            if ((not isinstance(v, float)) or not (v > 0.00)):
+                raise ValueError(f"v invalid. idx: {idx}, field: v. content: {v}")
+            
+            a = raw.get("a")
+            if ((not isinstance(a, float)) or not (a > 0.00)):
+                raise ValueError(f"a invalid. idx: {idx}, field: a. content: {a}")
+
+            pc = raw.get("pc")
+            if ((not isinstance(pc, float)) or not (pc > 0.00)):
+                raise ValueError(f"pc invalid. idx: {idx}, field: pc. content: {pc}")
+
+            sf = raw.get("sf")
+            if ((not isinstance(sf, int)) or not (sf == 0 or sf == 1)):
+                raise ValueError(f"sf invalid. idx: {idx}, field: sf. content: {sf}")
+
+            result.append(StockExchangeDailyEntity(t=t, o=o, h=h, l=l, c=c, v=v, a=a, pc=pc, sf=sf))
         
         return result

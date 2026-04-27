@@ -1,7 +1,7 @@
 import re
 from typing import Any, List, Dict
 from .base import Mapper
-from dto.stock_basic_info import StockBasicInfo
+from db.stock_basic_info_entity import StockBasicInfoEntity
 
 class StockBasicInfoMapper(Mapper):
 
@@ -19,7 +19,7 @@ class StockBasicInfoMapper(Mapper):
             return True
         return False
     
-    def map(self, data: Any) -> List[StockBasicInfo]:
+    def map(self, data: Any) -> List[StockBasicInfoEntity]:
         match data:
             case dict():
                 items = [data]
@@ -41,6 +41,6 @@ class StockBasicInfoMapper(Mapper):
             if (not isinstance(jys, str) or not (jys := jys.strip())):
                 raise ValueError(f"data invalid. idx: {idx}, field: jys. content: {jys}")
             
-            result.append(StockBasicInfo(dm=dm, mc=mc, jys=jys))
+            result.append(StockBasicInfoEntity(dm=dm, mc=mc, jys=jys))
         
         return result

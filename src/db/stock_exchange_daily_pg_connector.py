@@ -1,7 +1,7 @@
 from .pg_connector import PGConnector
 
 CREATE_TABLE = """
-CREATE TABLE IF NOT EXISTS {table_name} (
+CREATE TABLE IF NOT EXISTS stock_exchange_daily (
     id UUID PRIMARY KEY,
     datetime TIMESTAMP NOT NULL,
     value Integer NOT NULL,
@@ -17,9 +17,7 @@ CREATE INDEX IF NOT EXIST idx_code ON stock_basic_info (code);
 class StockExchangeInfoConnector(PGConnector):
 
     def __init__(self, dsn: str, date: str):
-        table_name: str = 'stock_exchange_info_' + date
-        sql = CREATE_TABLE.replace("{table_name}", table_name)
-        super().__init__(dsn, table_name, sql)
+        super().__init__(dsn, 'stock_exchange_daily', CREATE_TABLE)
         super().init_tables()
 
     def __enter__(self):
